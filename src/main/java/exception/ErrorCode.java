@@ -1,24 +1,24 @@
 package exception;
 
-import lombok.Getter;
-import org.springframework.http.HttpStatus;
-
-@Getter
 public enum ErrorCode {
-    NOT_FOUND(HttpStatus.NOT_FOUND),
-    BAD_REQUEST(HttpStatus.BAD_REQUEST),
-    UNAUTHORIZED(HttpStatus.UNAUTHORIZED),
-    FORBIDDEN(HttpStatus.FORBIDDEN),
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR),
-    VALIDATION_ERROR(HttpStatus.BAD_REQUEST),
-    INVALID_CAPTCHA(HttpStatus.UNPROCESSABLE_ENTITY),
-    INVALID_TOKEN(HttpStatus.UNAUTHORIZED),
-    EXISTS(HttpStatus.CONFLICT);
+    // Use simple, descriptive integer codes
+    NOT_FOUND(404),
+    BAD_REQUEST(400),
+    UNAUTHORIZED(401),
+    FORBIDDEN(403),
+    INTERNAL_SERVER_ERROR(500),
+    VALIDATION_ERROR(400),
+    INVALID_CAPTCHA(422), // 422 Unprocessable Entity
+    INVALID_TOKEN(401),
+    EXISTS(409); // 409 Conflict
 
-    private final HttpStatus httpStatus;
+    private final int httpStatusCode;
 
-    ErrorCode(HttpStatus httpStatus) {
-        this.httpStatus = httpStatus;
+    ErrorCode(int httpStatusCode) {
+        this.httpStatusCode = httpStatusCode;
     }
 
+    public int getHttpStatusCode() {
+        return httpStatusCode;
+    }
 }
