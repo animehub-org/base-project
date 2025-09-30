@@ -36,7 +36,7 @@ public class Anime {
 //    @JdbcTypeCode(SqlTypes.ARRAY)
 //    @Column(nullable = false, columnDefinition = "text[]")
 //    private List<String> genre = new ArrayList<>();
-
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "anime_genre",
             schema = "anime",
@@ -103,13 +103,8 @@ public class Anime {
     )
     private Set<Character> characters;
 
-    @OneToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "anime_state",
-            schema = "anime",
-            joinColumns = {@JoinColumn(name = "anime_id")},
-            inverseJoinColumns = {@JoinColumn(name = "state_id")}
-    )
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "state")
     private State state;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
@@ -126,9 +121,17 @@ public class Anime {
             String name,
             String name2,
             String description,
-            Set<Genre> genres
+            Set<Genre> genres,
+            State state,
+            String quality
     ) {
-
+        this.name = name;
+        this.name2 = name2;
+        this.description = description;
+        this.genres = genres;
+        this.state = state;
+        this.quality = quality;
+        this.visible = false;
     }
 
     public AnimeDTO toDTO() {

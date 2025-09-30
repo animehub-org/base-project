@@ -1,5 +1,8 @@
-package entities.producer;
+package services;
 
+import entities.producer.Producer;
+import entities.producer.ProducerRepository;
+import entities.producer.ProducerSummaryDTO;
 import exception.NotFound;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

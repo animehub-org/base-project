@@ -1,0 +1,48 @@
+package services;
+
+import entities.usersession.UserSession;
+import entities.usersession.UserSessionEmbeddedKey;
+import entities.usersession.UserSessionRepository;
+import entities.user.User;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+public class UserSessionService {
+    private final UserSessionRepository repo;
+
+    public UserSessionService(UserSessionRepository repo) {
+        this.repo = repo;
+    }
+
+    public UserSession save(UserSession userSession){
+        return this.repo.save(userSession);
+    }
+
+    public void delete(UserSession userSession){
+        this.repo.delete(userSession);
+    }
+
+    public Optional<UserSession> findByUserId(UUID userId) {
+        return repo.findByEmbeddedKeyUserId(userId);
+    }
+
+    public Optional<UserSession> findBySesssionId(UUID sessionId) {
+        return repo.findByEmbeddedKeySessionId(sessionId);
+    }
+
+    public UserSession createSession(User user){
+        UserSessionEmbeddedKey key = new UserSessionEmbeddedKey();
+        key.setSessionId(UUID.randomUUID());
+        key.setUserId(user.getId());
+
+        UserSession session = new UserSession();
+        session.setEmbeddedKey(key);
+        session.setUser(user);
+        session.setCreatedAt(Instant.now());
+        return session;
+    }
+}

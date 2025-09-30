@@ -1,5 +1,9 @@
-package entities.anime;
+package services;
 
+import entities.anime.Anime;
+import entities.anime.AnimeDTO;
+import entities.anime.AnimeRepository;
+import entities.anime.AnimeSummaryDTO;
 import exception.NotFound;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +17,7 @@ import java.util.UUID;
 public class AnimeService {
     private final AnimeRepository repo;
 
-    public AnimeService(AnimeRepository repo) {
+    public AnimeService(entities.anime.AnimeRepository repo) {
         this.repo = repo;
     }
 
