@@ -21,4 +21,12 @@ public class GenreService {
             return this.repo.findByName(g).orElse(null);
         }).collect(Collectors.toSet());
     }
+
+    public List<Genre> getAll() {
+        return this.repo.findAll();
+    }
+
+    public Genre save(Genre genre) {
+        return this.save(genre);
+    }
 }

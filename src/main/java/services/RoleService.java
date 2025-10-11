@@ -16,12 +16,18 @@ public class RoleService {
         this.repo = repo;
     }
 
-    public Optional<Role> findByName(RoleName name){
+    public Optional<Role> findByName(String name){
         return this.repo.findByName(name);
     }
+    public Optional<Role> findByName(RoleName name){
+        return this.findByName(name.name());
+    }
 
-    public boolean existsByName(RoleName name){
+    public boolean existsByName(String name){
         return this.repo.existsByName(name);
+    }
+    public boolean existsByName(RoleName name){
+        return this.existsByName(name.name());
     }
 
     public void save(Role role){

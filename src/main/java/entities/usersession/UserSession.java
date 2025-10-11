@@ -30,6 +30,9 @@ public class UserSession {
     @Column(name = "fingerprint")
     private String fingerprint;
 
+    @Column
+    private boolean active;
+
 //    @Column(name = "web_gl_vendor")
 //    private String webGlVendor;
 //

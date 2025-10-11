@@ -18,8 +18,10 @@ public class Character {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String role;
 
+    @Column
     private String description;
 
     public CharacterDTO toDTO() {
