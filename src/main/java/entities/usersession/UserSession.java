@@ -17,7 +17,7 @@ public class UserSession {
     private UserSessionEmbeddedKey embeddedKey;
 
     @MapsId("userId")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 

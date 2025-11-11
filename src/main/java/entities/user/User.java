@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 
 @Entity
-@Table(name = "users", schema = "users")
+@Table(name = "user", schema = "users")
 @Getter
 @Builder
 @NoArgsConstructor
@@ -46,7 +46,7 @@ public class User {
     private String salt;
 
     @Column(name = "superuser")
-    private Boolean superUser;
+    private boolean superUser;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -55,7 +55,8 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
-    private Set<Role> roles;
+    @Builder.Default
+    private Set<Role> roles = new HashSet<>();
 
     public UserDTO toUserDTO() {
         List<RoleDTO> roleDTOs = new ArrayList<>();

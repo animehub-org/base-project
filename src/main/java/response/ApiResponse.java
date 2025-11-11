@@ -1,17 +1,23 @@
 package response;
 
 import exception.ErrorCode;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.Instant;
 
-public record ApiResponse<T>(
-    boolean success,
-    T data,
-    String message,
-    Instant timestamp,
-    ErrorCode errorCode
-) implements Serializable {
+@Builder
+@NoArgsConstructor
+@Getter
+public class ApiResponse<T> implements Serializable {
+    boolean success;
+    T data;
+    String message;
+    Instant timestamp;
+    ErrorCode errorCode;
+
     public ApiResponse(T data){
         this(true, data, null, Instant.now(), null);
     }
@@ -23,6 +29,14 @@ public record ApiResponse<T>(
     }
     public ApiResponse(String message, ErrorCode errorCode){
         this(false, null, message, Instant.now(), errorCode);
+    }
+
+    private ApiResponse(boolean success, T data, String message, Instant timestamp, ErrorCode errorCode){
+        this.success = success;
+        this.data = data;
+        this.message = message;
+        this.timestamp = timestamp;
+        this.errorCode = errorCode;
     }
 
     public static <T> ApiResponse<T> error(String message, ErrorCode errorCode){
