@@ -17,7 +17,7 @@ public class GenreService {
     }
 
     public Set<Genre> getFromList(List<String> list) {
-        return list.stream().map(g->{
+        return list.stream().map(g -> {
             return this.repo.findByName(g).orElse(null);
         }).collect(Collectors.toSet());
     }
@@ -27,6 +27,6 @@ public class GenreService {
     }
 
     public Genre save(Genre genre) {
-        return this.save(genre);
+        return this.repo.save(genre);
     }
 }

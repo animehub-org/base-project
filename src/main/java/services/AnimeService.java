@@ -22,9 +22,9 @@ public class AnimeService {
     }
 
     @Cacheable(value = "anime", key = "#id")
-    public AnimeDTO getById(UUID id){
+    public AnimeDTO getById(UUID id) {
         return repo.findById(id)
-                .orElseThrow(()->new NotFound("Anime not found"))
+                .orElseThrow(() -> new NotFound("Anime not found"))
                 .toDTO();
     }
 
@@ -33,36 +33,41 @@ public class AnimeService {
     public List<AnimeDTO> getAllDTO() {
         return repo.findAll().stream().map(Anime::toDTO).toList();
     }
+
     @Cacheable(value = "animes")
     public Page<AnimeDTO> getAllDTO(Pageable pageable) {
         return repo.findAll(pageable).map(Anime::toDTO);
     }
+
     @Cacheable(value = "animes")
-    public List<AnimeDTO> getAllDTO(boolean visible){
+    public List<AnimeDTO> getAllDTO(boolean visible) {
         return repo.findAllByVisible(visible).stream().map(Anime::toDTO).toList();
     }
 
-    //anime SummaryDTO
+    // anime SummaryDTO
     @Cacheable(value = "animesSummary")
     public List<AnimeSummaryDTO> getAnimeSummaries(boolean visible) {
         return repo.findAllByVisible(visible).stream().map(Anime::toSummaryDTO).toList();
     }
+
     @Cacheable(value = "animesSummary")
     public Page<AnimeSummaryDTO> getAnimeSummaries(boolean visible, Pageable pageable) {
         return repo.findAllByVisible(visible, pageable).map(Anime::toSummaryDTO);
     }
-    @Cacheable(value = "animesSummary")
-    public Page<AnimeSummaryDTO> getAnimeSummaries(Pageable pageable) {
-        return repo.findAll(pageable).map(Anime::toSummaryDTO);
+
+    // Note: Returns List instead of Page for Redis JSON serialization compatibility
+    @Cacheable(value = "animesSummary", key = "'page-' + #pageable.pageNumber + '-' + #pageable.pageSize")
+    public List<AnimeSummaryDTO> getAnimeSummaries(Pageable pageable) {
+        return repo.findAll(pageable).map(Anime::toSummaryDTO).getContent();
     }
 
-    public Anime save(Anime anime){
+    public Anime save(Anime anime) {
         return repo.save(anime);
     }
 
-    //anime entity
-    //preferable not to use this method because it has no cache
-    public List<Anime> getAll(){
+    // anime entity
+    // preferable not to use this method because it has no cache
+    public List<Anime> getAll() {
         return repo.findAll();
     }
 
